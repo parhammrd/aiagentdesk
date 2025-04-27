@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Multi-Agent Desk</h1>
+      <p>Interact with different AI models</p>
+    </header>
+    
+    <main>
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages will appear here -->
+        </div>
+        
+        <div class="chat-input">
+          <form id="chat-form">
+            <select id="model-select">
+              <option value="gemini" selected>Gemini 2.0 Flash</option>
+              <!-- More models will be added here -->
+            </select>
+            <input type="text" id="message-input" placeholder="Type your message here..." required>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> Multi-Agent Desk</p>
+    </footer>
+  </div>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html> 
