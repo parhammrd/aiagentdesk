@@ -19,9 +19,10 @@ const getLLMService = (model) => {
  * Generate a response from an LLM
  * @param {string} message - Input message
  * @param {string} model - LLM model to use
+ * @param {string} instructions - System instructions for the model
  * @returns {Promise<string>} Response from the LLM
  */
-exports.generateResponse = async (message, model = 'gemini') => {
+exports.generateResponse = async (message, model = 'gemini', instructions = '') => {
   const service = getLLMService(model);
-  return await service.generateResponse(message);
+  return await service.generateResponse(message, instructions);
 }; 

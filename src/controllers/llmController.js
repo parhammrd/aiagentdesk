@@ -7,13 +7,13 @@ const llmService = require('../services/llm');
  */
 exports.processChat = async (req, res) => {
   try {
-    const { message, model = 'gemini' } = req.body;
+    const { message, model = 'gemini', instructions = '' } = req.body;
     
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
     
-    const response = await llmService.generateResponse(message, model);
+    const response = await llmService.generateResponse(message, model, instructions);
     
     return res.status(200).json({
       message: response,

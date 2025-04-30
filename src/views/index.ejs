@@ -5,38 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/message.css">
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Multi-Agent Desk</h1>
-      <p>Interact with different AI models</p>
+      <p>Chat with multiple AI agents simultaneously</p>
     </header>
     
-    <main>
-      <div class="chat-container">
+    <main class="chatroom-container">
+      <!-- Agent sidebar -->
+      <div class="agent-sidebar">
+        <div class="sidebar-header">
+          <h2>Members</h2>
+          <button id="add-agent-btn" class="add-agent-btn" title="Add new agent">+</button>
+        </div>
+        <div class="agent-list" id="agent-list">
+          <!-- Agents will be listed here dynamically -->
+        </div>
+      </div>
+      
+      <!-- Chat area -->
+      <div class="chat-area">
         <div class="chat-messages" id="chat-messages">
           <!-- Messages will appear here -->
         </div>
         
         <div class="chat-input">
           <form id="chat-form">
-            <select id="model-select">
-              <option value="gemini" selected>Gemini 2.0 Flash</option>
-              <!-- More models will be added here -->
-            </select>
-            <input type="text" id="message-input" placeholder="Type your message here..." required>
+            <input type="text" id="message-input" placeholder="Type your message here..." required> <!--Use @agentname to mention specific agents-->
             <button type="submit">Send</button>
           </form>
         </div>
       </div>
     </main>
     
+    <!-- Agent config modal -->
+    <div id="agent-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Configure Agent</h2>
+        <form id="agent-form">
+          <input type="hidden" id="agent-id">
+          
+          <div class="form-group">
+            <label for="agent-name">Name:</label>
+            <input type="text" id="agent-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-model">Model:</label>
+            <select id="agent-model">
+              <option value="gemini">Gemini</option>
+              <!-- Add more models here as they become available -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-description">Description:</label>
+            <input type="text" id="agent-description">
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-instructions">Instructions:</label>
+            <textarea id="agent-instructions" rows="4"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-tools">Tools (comma-separated):</label>
+            <input type="text" id="agent-tools">
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-color">Avatar Color:</label>
+            <input type="color" id="agent-color">
+          </div>
+          
+          <button type="submit">Save Agent</button>
+          <button type="button" id="delete-agent-btn" class="delete-agent-btn">Delete Agent</button>
+        </form>
+      </div>
+    </div>
+    
     <footer>
       <p>&copy; <%= new Date().getFullYear() %> Multi-Agent Desk</p>
     </footer>
   </div>
   
-  <script src="/js/main.js"></script>
+  <script src="/js/chatroom.js"></script>
 </body>
 </html> 

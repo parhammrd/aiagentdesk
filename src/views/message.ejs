@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/message.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Multi-Agent Desk</h1>
+      <p id="agent-title">Direct Chat</p>
+      <nav>
+        <a href="/" class="button">Back to Chatroom</a>
+      </nav>
+    </header>
+    
+    <main class="direct-chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <!-- Messages will appear here -->
+      </div>
+      
+      <div class="chat-input">
+        <form id="chat-form">
+          <div class="form-row">
+            <select id="model-select" style="display: none;">
+              <option value="gemini" selected>Gemini</option>
+              <!-- More models will be added here -->
+            </select>
+            <input type="text" id="message-input" placeholder="Type your message here..." required>
+            <button type="submit">Send</button>
+          </div>
+          <div class="form-row">
+            <label for="instructions-input">System Instructions (optional):</label>
+            <textarea id="instructions-input" rows="2" placeholder="Provide custom instructions for the agent..."></textarea>
+          </div>
+        </form>
+      </div>
+    </main>
+    
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> Multi-Agent Desk</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Pass the agent ID to the frontend if provided
+    window.currentAgentId = "<%= agentId %>";
+    console.log("Setting agent ID to:", "<%= agentId %>"); // Debug line
+  </script>
+  <script src="/js/direct-chat.js"></script>
+</body>
+</html> 

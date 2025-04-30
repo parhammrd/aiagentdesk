@@ -23,11 +23,21 @@ app.set('view engine', 'ejs');
 
 // Routes
 const apiRoutes = require('./routes/api');
-app.use('/api', apiRoutes);
+const agentRoutes = require('./routes/agents');
 
-// Home route
+app.use('/api', apiRoutes);
+app.use('/api/agents', agentRoutes);
+
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Multi-Agent Desk' });
+  res.render('index', { title: 'Multi-Agent Chatroom' });
+});
+
+// Direct chat with a specific agent
+app.get('/chat/:agentId', (req, res) => {
+  res.render('message', { 
+    title: 'Direct Chat',
+    agentId: req.params.agentId 
+  });
 });
 
 // Start server
