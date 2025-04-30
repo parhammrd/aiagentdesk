@@ -2,12 +2,13 @@
 
 ## Introduction
 
-Multi-Agent Desk is a platform enabling simultaneous interaction with multiple specialized LLM agents. Each agent holds a unique domain expertise (e.g., mathematics tutor, history scholar), allowing the system to pool diverse knowledge and tackle complex queries more effectively [{1}]. By facilitating parallel dialogues, the platform leverages multi-agent collaboration to enhance learning outcomes, akin to how LLM-powered classroom simulations have shown improved educational engagement [{2}]. This project can be enhanced through the integration of two methods: Retrieval-Augmented Generation (RAG) for grounding agent responses in real-time information, and Model Collaboration Protocols (MCP) for structured inter-agent communication.
+Multi-Agent Desk is a platform enabling simultaneous interaction with multiple specialized LLM agents. Each agent holds a unique domain expertise (e.g., mathematics tutor, history scholar), allowing the system to pool diverse knowledge and tackle complex queries more effectively [{1}]. By facilitating parallel dialogues, the platform leverages multi-agent collaboration to enhance learning outcomes, akin to how LLM-powered classroom simulations have shown improved educational engagement [{2}]. This project can be enhanced through the integration of two methods: Retrieval-Augmented Generation (RAG) for grounding agent responses in real-time information and Model Collaboration Protocols (MCP) for structured inter-agent communication.
 
 ##### Key objectives include:
 
 * **Prototype Development**: Build a web-based Multi-Agent Desk interface that supports concurrent chat with multiple LLM agents.
 * **LLM Integration**: Connect heterogeneous LLM backends (via APIs like OpenAI/Anthropic and local models like LLaMA and DeepSeek) and equip each agent with specialized knowledge.
+* **User Experience**: Develop an easy-use and clear functionality experience and shift the complexity to the agent behavior.
 * **User Evaluation**: Conduct user studies comparing multi-agent interactions vs. single-agent baselines in educational tasks, measuring learning gains and user preferences.
 * **RAG and MCP Integration**: Create retrieval pipelines for agents to access updated knowledge and establish a collaboration protocol for requesting help or refining for requesting help or refining each other's answers.
 
@@ -27,7 +28,7 @@ Multi-agent LLM research shows that specialized agents can collectively share kn
 
 ### System Prototyping
 
-* **Architecture Design**: Develop modular components using API-based and locally deployed LLM instances. Implement a web framework with Node.js to handle simultaneous chats.
+* **Architecture Design**: Develop modular langaue model components using API-based and locally deployed LLM instances. Implement a web framework with Node.js to handle simultaneous chats.
 * **Iterative Implementation**: Begin with a minimal prototype (e.g., two agents) and incrementally add features. Establish containerization or virtual environments to manage dependencies.
 * **User Interface**: Create a chat interface showing multiple chat windows for each agent or _use traditional chat rooms_. Clearly label agent identities and provide controls for targeting messages to specific agents or broadcasting to all.
 
@@ -41,7 +42,9 @@ Multi-agent LLM research shows that specialized agents can collectively share kn
 
 ## Expected Outcomes
 
-
+* **Academic Contributions**: We will provide a formal architecture and prototype for collaborative multi-agent conversation systems. Insights are expected on how agent specialization and interactions impact problem-solving and learning (contributing to AI, HCI, and Complex Systems research).
+* **Technical Milestones**: Create a functional prototype of the Multi-Agent Desk that showcases conversation solidarity. The prototype should feature interactive functionality among the agents, incorporate RAG-grounding for responses, and facilitate active collaboration through the MCP. Additionally, we will include specific agents such as the director, ethical advisor, and domain experts.
+* **Evaluation Results**: Integrating multi-agent support in educational chat systems enhances user experience and promotes critical thinking among students. Students gain diverse perspectives by interacting with various agents, encouraging deeper analysis. Collecting empirical data will help quantify these benefits and guide the design of more effective educational chat systems.
 
 ## References
 
