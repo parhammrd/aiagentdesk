@@ -68,7 +68,3 @@ To add a new LLM model:
 2. Implement the `generateResponse` method
 3. Add the configuration in `src/config/llm.js`
 4. Update the factory function in `src/services/llm/index.js`
-
-## License
-
-MIT 

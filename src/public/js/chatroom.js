@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModal = document.querySelector('.close');
   const agentForm = document.getElementById('agent-form');
   
+  // Selection controls
+  const selectionControls = document.getElementById('selection-controls');
+  const selectedCountSpan = document.getElementById('selected-count');
+  const selectAllBtn = document.getElementById('select-all-btn');
+  const toggleSelectionBtn = document.getElementById('toggle-selection-btn');
+  const clearSelectionBtn = document.getElementById('clear-selection-btn');
+  
   // Agent form elements
   const agentIdInput = document.getElementById('agent-id');
   const agentNameInput = document.getElementById('agent-name');
@@ -22,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // State
   let agents = [];
   let activeAgents = [];
+  let selectedMessages = [];
   
   // Fetch all agents
   async function fetchAgents() {
@@ -119,36 +127,116 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
     
+    // Add selection indicator
+    const selectionIndicator = document.createElement('div');
+    selectionIndicator.classList.add('selection-indicator');
+    messageElement.appendChild(selectionIndicator);
+    
     // Add appropriate class based on sender
     if (sender === 'user') {
       messageElement.classList.add('user-message');
-      messageElement.innerHTML = `<div class="message-content">${content}</div>`;
+      messageElement.innerHTML = `
+        <div class="selection-indicator"></div>
+        <div class="message-content">${content}</div>
+      `;
     } else {
       messageElement.classList.add('agent-message');
       
-      const firstLetter = senderName.charAt(0).toUpperCase();
+      const firstLetter = senderName ? senderName.charAt(0).toUpperCase() : 'S';
       
       messageElement.innerHTML = `
+        <div class="selection-indicator"></div>
         <div class="message-header">
-          <div class="message-avatar" style="background-color: ${avatarColor}">
+          <div class="message-avatar" style="background-color: ${avatarColor || '#FF5722'}">
             ${firstLetter}
           </div>
-          ${senderName}
+          ${senderName || 'System'}
         </div>
         <div class="message-content">${content}</div>
       `;
     }
     
+    // Add click event for message selection
+    messageElement.addEventListener('click', (e) => {
+      // If clicking on a link inside the message, don't select
+      if (e.target.tagName === 'A') {
+        return;
+      }
+      
+      toggleMessageSelection(messageElement);
+    });
+    
     chatMessages.appendChild(messageElement);
+    
+    // Store message data in the element for later use
+    messageElement.messageData = {
+      content,
+      sender,
+      senderName,
+      avatarColor,
+      timestamp: new Date().toISOString()
+    };
     
     // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    return messageElement;
   }
+  
+  // Toggle message selection
+  function toggleMessageSelection(messageElement) {
+    messageElement.classList.toggle('selected');
+    
+    // Update selectedMessages array
+    if (messageElement.classList.contains('selected')) {
+      selectedMessages.push(messageElement);
+    } else {
+      selectedMessages = selectedMessages.filter(msg => msg !== messageElement);
+    }
+    
+    // Update selection count
+    selectedCountSpan.textContent = selectedMessages.length;
+    
+    // Show/hide selection controls
+    if (selectedMessages.length > 0) {
+      selectionControls.classList.add('active');
+    } else {
+      selectionControls.classList.remove('active');
+    }
+  }
+  
+  // Handle select all button
+  selectAllBtn.addEventListener('click', () => {
+    const allMessages = chatMessages.querySelectorAll('.message');
+    allMessages.forEach(msg => {
+      if (!msg.classList.contains('selected')) {
+        toggleMessageSelection(msg);
+      }
+    });
+  });
+  
+  // Handle toggle selection button
+  toggleSelectionBtn.addEventListener('click', () => {
+    const allMessages = chatMessages.querySelectorAll('.message');
+    allMessages.forEach(msg => {
+      toggleMessageSelection(msg);
+    });
+  });
+  
+  // Handle clear selection button
+  clearSelectionBtn.addEventListener('click', () => {
+    selectedMessages.forEach(msg => {
+      msg.classList.remove('selected');
+    });
+    selectedMessages = [];
+    selectedCountSpan.textContent = '0';
+    selectionControls.classList.remove('active');
+  });
   
   // Send message to all active agents
   async function sendMessageToAgents(message) {
     // Add user message to chat
-    addMessage(message, 'user');
+    const messageElement = addMessage(message, 'user');
     
     // Clear input
     messageInput.value = '';
@@ -172,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const firstLetter = agent.name.charAt(0).toUpperCase();
       
       loadingElement.innerHTML = `
+        <div class="selection-indicator"></div>
         <div class="message-header">
           <div class="message-avatar" style="background-color: ${agent.avatarColor}">
             ${firstLetter}
@@ -185,6 +274,21 @@ document.addEventListener('DOMContentLoaded', () => {
       loadingElements[agent.id] = loadingElement;
     });
     
+    // Prepare selected messages context if any are selected
+    let context = '';
+    if (selectedMessages.length > 0) {
+      context = 'Previous conversation context:\n\n';
+      selectedMessages.forEach(msg => {
+        const data = msg.messageData;
+        const sender = data.sender === 'user' ? 'User' : data.senderName;
+        context += `${sender}: ${data.content}\n\n`;
+      });
+      context += `\nBased on the above context, please respond to: ${message}`;
+      
+      // Clear selection after sending
+      clearSelectionBtn.click();
+    }
+    
     // Send message to each target agent
     const promises = targetAgents.map(async (agent) => {
       try {
@@ -193,7 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ message })
+          body: JSON.stringify({ 
+            message: context || message 
+          })
         });
         
         if (!response.ok) {
