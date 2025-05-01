@@ -7,7 +7,12 @@
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["multi-agent", "research", "education", "LLM"],
+  "keywords": [
+    "multi-agent",
+    "research",
+    "education",
+    "LLM"
+  ],
   "author": "Parham Moradi",
   "license": "CC-BY-NC-SA-4.0",
   "description": "A multi-agent desk for research and development",
@@ -16,7 +21,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "hono": "^4.7.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
